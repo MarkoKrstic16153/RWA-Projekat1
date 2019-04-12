@@ -1,0 +1,243 @@
+{
+  "movies": [
+    {
+      "id": "rambo",
+      "title": "Rambo",
+      "year": 1985
+    },
+    {
+      "id": "spectre",
+      "title": "Spectre",
+      "year": 1985
+    },
+    {
+      "id": "mission imposible",
+      "title": "MissonImpossible",
+      "year": 1985
+    },
+    {
+      "id": "fullmetaljacket",
+      "title": "FullMetalJacket",
+      "year": 1985
+    },
+    {
+      "id": "deadpool",
+      "title": "DeadPool",
+      "year": 1985
+    },
+    {
+      "title": "Rambo2",
+      "year": "1999",
+      "id": "YeQegYK"
+    }
+  ],
+  "users": [
+    {
+      "username": "a",
+      "password": "a",
+      "lajkovaniOdg": [
+        "Klasa je Sve!",
+        "Klasa je entitet iz svakodnevnog zivota.",
+        "Radi se preko hibrida Milijevog i Murovog automata."
+      ],
+      "id": "E6w6x-v"
+    },
+    {
+      "username": "admin",
+      "password": "admin",
+      "lajkovaniOdg": [],
+      "id": "TxU4pCa"
+    }
+  ],
+  "pitanja": [
+    {
+      "odgovori": [
+        {
+          "autorr": "Milan9999",
+          "sadrzaj": "Klasa je Sve!",
+          "poeni": 5
+        },
+        {
+          "autorr": "2Marija18",
+          "sadrzaj": "Klasa je entitet iz svakodnevnog zivota.",
+          "poeni": 4
+        }
+      ],
+      "text": "Sta je klasa?",
+      "autor": "Aristotel333",
+      "katedra": "RII",
+      "predmet": "Objektno Orijentisano Programiranje",
+      "id": 1
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "Milan9999",
+          "sadrzaj": "Javna nasledjivanja su najbolja!",
+          "poeni": 1
+        }
+      ],
+      "text": "Koje nasledjivanje je najbolje koristiti u C++-u?",
+      "autor": "Billy",
+      "katedra": "RII",
+      "predmet": "Objektno Orijentisano Programiranje",
+      "id": 2
+    },
+    {
+      "id": 3,
+      "autor": "Platon4",
+      "predmet": "Elektrotehnika",
+      "katedra": "EEN",
+      "text": "Sta je to kapacitivnost?",
+      "odgovori": [
+        {
+          "sadrzaj": "Kapacitivnost je prirodna pojava skaldistenja naelektrisanja",
+          "autorr": "Janko1997",
+          "poeni": 0
+        }
+      ]
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "a",
+          "sadrzaj": "Masina cija se IP adresa zna.",
+          "poeni": 2
+        },
+        {
+          "autorr": "a",
+          "sadrzaj": "Novi odgovor.",
+          "poeni": 0
+        },
+        {
+          "autorr": "a",
+          "sadrzaj": "Treci Odgovor.",
+          "poeni": 0
+        },
+        {
+          "autorr": "Marko",
+          "sadrzaj": "Cetvrti Odgovor!>.",
+          "poeni": 0
+        },
+        {
+          "autorr": "a",
+          "sadrzaj": "Peti",
+          "poeni": 0
+        },
+        {
+          "autorr": "a",
+          "sadrzaj": "SESTi",
+          "poeni": 0
+        }
+      ],
+      "text": "Sta je to server?",
+      "autor": "a",
+      "katedra": "RII",
+      "predmet": "WEB",
+      "id": 4
+    },
+    {
+      "autor": "a",
+      "predmet": "Objektno Orijentisano Programiranje",
+      "katedra": "RII",
+      "text": "Razlika izmedju apstraktnih i virtelnih funkcija?",
+      "odgovori": [],
+      "id": 5
+    },
+    {
+      "odgovori": [],
+      "text": "Raw hazardi i War hazardi, razlika?",
+      "autor": "a",
+      "katedra": "RII",
+      "predmet": "AIOR",
+      "id": 7
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "a",
+          "sadrzaj": "Radi se preko hibrida Milijevog i Murovog automata.",
+          "poeni": 1
+        }
+      ],
+      "text": "CPU preko masine stanja(konacni automat)?",
+      "autor": "a",
+      "katedra": "RII",
+      "predmet": "AIOR",
+      "id": 8
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "a",
+          "sadrzaj": "Kod nekih instrukcija nije (npr instrukcije CMP TEST ...).",
+          "poeni": 0
+        },
+        {
+          "autorr": "a",
+          "sadrzaj": "Kod svih se izvrsava obavezno.",
+          "poeni": 0
+        }
+      ],
+      "text": "Writeback faza instrukcije,da li je obavezna?",
+      "autor": "a",
+      "katedra": "RII",
+      "predmet": "AIOR",
+      "id": 9
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "a",
+          "sadrzaj": "Ferantijev efekat je pojava povecanja napona na kraju voda usled postojanja otocnih kapacitivnosti, najizrazeniji je ukoliko je vod podopterecen (nije prikljuceno opterecenje).",
+          "poeni": 3
+        }
+      ],
+      "text": "Ferantijev Efekat kod visoko naponskih vodova?",
+      "autor": "a",
+      "katedra": "EEN",
+      "predmet": "Prenos Energije",
+      "id": 10
+    },
+    {
+      "autor": "a",
+      "predmet": "Prenos Energije",
+      "katedra": "EEN",
+      "text": "Sila zatezanja kod vodova?",
+      "odgovori": [],
+      "id": 11
+    },
+    {
+      "autor": "a",
+      "predmet": "Elektrotehnika",
+      "katedra": "EEN",
+      "text": "Medjusobna induktivnost 2 kalema?",
+      "odgovori": [],
+      "id": 12
+    },
+    {
+      "autor": "a",
+      "predmet": "LSAU",
+      "katedra": "UPS",
+      "text": "Nikvistov kriterijum?",
+      "odgovori": [],
+      "id": 13
+    },
+    {
+      "autor": "a",
+      "predmet": "LSAU",
+      "katedra": "UPS",
+      "text": "Modeliranje trenja preko otpornisti sistema?",
+      "odgovori": [],
+      "id": 15
+    },
+    {
+      "autor": "a",
+      "predmet": "Regulacija EMP",
+      "katedra": "UPS",
+      "text": "Sta su nule ,a sta polovi sistema?",
+      "odgovori": [],
+      "id": 16
+    }
+  ]
+}
