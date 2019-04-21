@@ -48,7 +48,7 @@ function generisiNaslov()
                 body: JSON.stringify(ime)
             };
             from(
-                fetch("http://localhost:3000/users/"+idUser,podaci)
+                fetch("http://localhost:3000/users/"+idUser,podaci)//("http://localhost:3000/users/"+idUser,podaci)
                 .then(response => response.json())
             ).subscribe(user=>{ console.log(user)});
             document.body.innerHTML="";
@@ -114,6 +114,7 @@ userNameDom.name="user1";
 const passwordDom=document.createElement("input");
 passwordDom.name="pass1";
 passwordDom.type="password";
+
 const div=document.createElement("div");
 div.appendChild(par);
 let labela1=document.createElement("label");
@@ -132,6 +133,7 @@ otac.appendChild(div);
 //document.body.appendChild(otac);
 const loginKomentar=document.createElement("article");
 div.appendChild(loginKomentar);
+dodajKontrolu(passwordDom,userNameDom,loginKomentar);
 const dugme=document.createElement("button");
 dugme.innerHTML="Sign Up";
 div.appendChild(dugme);
@@ -140,13 +142,35 @@ dugme.onclick=(ev)=>
     signUp();
 }
 }
+function dodajKontrolu(input,input2,labela)
+{
+    fromEvent(input,"input").pipe(
+        debounceTime(500),//da saceka 500 ms
+        map(ev => ev.target.value.trim())
+    ).subscribe(val=>{refreshLabel(val,labela," password!")});
 
+    fromEvent(input2,"input").pipe(
+        debounceTime(500),//da saceka 500 ms
+        map(ev => ev.target.value.trim())
+    ).subscribe(val=>{refreshLabel(val,labela," username!")});
+}
+function refreshLabel(val,labela,poruka)
+{
+if(val.length<4)
+{
+labela.innerHTML="Nedovoljno dug"+poruka;
+}
+else
+{
+labela.innerHTML="";
+}
+}
 function login()
 {
 let username=document.querySelector("input[name='user']").value;
 let password=document.querySelector("input[name='pass']").value;
 console.log(password+" "+username);
-if(username.length!=0 && password.length!=0){
+if(username.length>=4 && password.length>=4){
 from(
     fetch("http://localhost:3000/users?username="+username+"&password="+password)
     .then(response => response.json())
@@ -164,7 +188,7 @@ function signUp()
 let username=document.querySelector("input[name='user1']").value;
 let password=document.querySelector("input[name='pass1']").value;
 console.log(password+" "+username);
-if(username.length!=0 && password.length!=0){
+if(username.trim().length>=4 && password.trim().length>=4){
     from(
         fetch("http://localhost:3000/users?username="+username+"&password="+password)
         .then(response => response.json())
@@ -200,12 +224,19 @@ const podaci={
         from(
             fetch("http://localhost:3000/users",podaci)
             .then(response => response.json())
-        ).subscribe(user=>{dom.innerHTML="Uspesno stvoren novi account!";pokreni(user)});
+        ).subscribe(user=>{dom.innerHTML="Uspesno stvoren novi account!";napuniSignInId();pokreni(user)});
     }
     else
     {
 dom.innerHTML="Username/Password kombinacija je zauzeta!";
     }
+}
+function napuniSignInId()
+{
+    from(
+        fetch("http://localhost:3000/users?username="+ime.username)
+        .then(response => response.json())
+    ).subscribe(user=>{idUser=user[0]["id"];console.log("UVACEN ID JE "+idUser)});
 }
 function vidiUser(user)
 {
@@ -241,7 +272,6 @@ function pokreni(user)
     start()
     .then((user)=>ucitaj(user))
     .catch((reason)=> console.log(reason));
-   //setTimeout((user)=>ucitaj(user),1500);
 }
 function ucitaj(user)
 {
@@ -734,7 +764,7 @@ function prikaziStream(stream,duz,katedra)
 let tok=a.pipe(
     takeUntil(controlStream),
     distinct()
-).subscribe(x=>{console.log(stream[x]);addSubPitanje(stream[x])});
+).subscribe(x=>{console.log(x);addSubPitanje(stream[x])});
 if(katedra=="RII")
 {
     riiStream=tok
@@ -772,6 +802,7 @@ function addSubPitanje(element)
         let odgovor=new Odgovor(el["autorr"],el["sadrzaj"],el["poeni"]);
         pitanje.dodajOdgovor(odgovor);
     });
+
     listaSubPitanja.push(pitanje);
     let parent=document.querySelector(".stream");
     const divPitanje=document.createElement("div");
