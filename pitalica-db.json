@@ -1,0 +1,474 @@
+{
+  "users": [
+    {
+      "username": "a",
+      "password": "a",
+      "lajkovaniOdg": [
+        "Klasa je Sve!",
+        "Klasa je entitet iz svakodnevnog zivota.",
+        "Radi se preko hibrida Milijevog i Murovog automata.",
+        "Masina cija se IP adresa zna.",
+        "Novi odgovor."
+      ],
+      "id": "E6w6x-v"
+    },
+    {
+      "username": "pokusaj",
+      "password": "pokusaj",
+      "lajkovaniOdg": [
+        "Masina cija se IP adresa zna.",
+        "Novi odgovor.",
+        "Treci Odgovor.",
+        "Vidi na njihovom zvanicnom sajtu , sve je lepo objasnjeno."
+      ],
+      "id": "TxU4pCa"
+    },
+    {
+      "username": "mare97",
+      "password": "mare97",
+      "lajkovaniOdg": [
+        "Vidi na njihovom zvanicnom sajtu , sve je lepo objasnjeno.",
+        "Cetvrti Odgovor!>.",
+        "Treci Odgovor.",
+        "Novi odgovor.",
+        "Masina cija se IP adresa zna.",
+        "Kod nekih instrukcija nije (npr instrukcije CMP TEST ...).",
+        "Kod svih se izvrsava obavezno.",
+        "Zavisi da li je CISC ili RISC arhitektura.\n",
+        "Kapacitivnost je prirodna pojava skaldistenja naelektrisanja",
+        "novi odgovor",
+        "Peti",
+        "moj novi ododgovor\n",
+        "Radi se preko hibrida Milijevog i Murovog automata.",
+        "Ferantijev efekat je pojava povecanja napona na kraju voda usled postojanja otocnih kapacitivnosti, najizrazeniji je ukoliko je vod podopterecen (nije prikljuceno opterecenje).",
+        "Javna nasledjivanja su najbolja!"
+      ],
+      "id": "WsPjNFu"
+    },
+    {
+      "username": "hello",
+      "password": "hello",
+      "lajkovaniOdg": [],
+      "id": "idoQO9q"
+    },
+    {
+      "username": "world",
+      "password": "world",
+      "lajkovaniOdg": [],
+      "id": "KAz9M4r"
+    },
+    {
+      "username": "test",
+      "password": "test",
+      "lajkovaniOdg": [
+        "zadnji",
+        "SESTi",
+        "Cetvrti Odgovor!>.",
+        "gg",
+        "g"
+      ],
+      "id": "-cgr7AO"
+    },
+    {
+      "username": "kraj",
+      "password": "kraj",
+      "lajkovaniOdg": [],
+      "id": "ApviCU2"
+    },
+    {
+      "username": "kraj2",
+      "password": "kraj2",
+      "lajkovaniOdg": [
+        "Masina cija se IP adresa zna.",
+        "Novi odgovor."
+      ],
+      "id": "CVMSHNQ"
+    },
+    {
+      "username": "mark",
+      "password": "ttt",
+      "lajkovaniOdg": [],
+      "id": "ca6_3Lt"
+    },
+    {
+      "username": "VoltriXxxx",
+      "password": "VolTriiaa",
+      "lajkovaniOdg": [
+        "SESTi",
+        "(parametri)=>{sta vraca} , to ti je \nsintaksa. "
+      ],
+      "id": "eGtiHqM"
+    },
+    {
+      "username": "test1",
+      "password": "test1",
+      "lajkovaniOdg": [],
+      "id": "lvVX6zN"
+    }
+  ],
+  "pitanja": [
+    {
+      "odgovori": [
+        {
+          "autorr": "Milan9999",
+          "sadrzaj": "Klasa je Sve!",
+          "poeni": 5
+        },
+        {
+          "autorr": "2Marija18",
+          "sadrzaj": "Klasa je entitet iz svakodnevnog zivota.",
+          "poeni": 4
+        },
+        {
+          "autorr": "a",
+          "sadrzaj": "moj novi odgovor",
+          "poeni": 0
+        }
+      ],
+      "text": "Sta je klasa?",
+      "autor": "Aristotel333",
+      "katedra": "RII",
+      "predmet": "Objektno Orijentisano Programiranje",
+      "id": 1
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "Milan9999",
+          "sadrzaj": "Javna nasledjivanja su najbolja!",
+          "poeni": 3
+        },
+        {
+          "autorr": "mare97",
+          "sadrzaj": "igenierngier",
+          "poeni": 0
+        }
+      ],
+      "text": "Koje nasledjivanje je najbolje koristiti u C++-u?",
+      "autor": "Billy",
+      "katedra": "RII",
+      "predmet": "Objektno Orijentisano Programiranje",
+      "id": 2
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "Janko1997",
+          "sadrzaj": "Kapacitivnost je prirodna pojava skaldistenja naelektrisanja",
+          "poeni": 1
+        },
+        {
+          "autorr": "mare97",
+          "sadrzaj": "novi odgovor",
+          "poeni": 0
+        }
+      ],
+      "text": "Sta je to kapacitivnost?",
+      "autor": "Platon4",
+      "katedra": "EEN",
+      "predmet": "Elektrotehnika",
+      "id": 3
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "a",
+          "sadrzaj": "Masina cija se IP adresa zna.",
+          "poeni": 9
+        },
+        {
+          "autorr": "a",
+          "sadrzaj": "Novi odgovor.",
+          "poeni": 6
+        },
+        {
+          "autorr": "a",
+          "sadrzaj": "Treci Odgovor.",
+          "poeni": 4
+        },
+        {
+          "autorr": "Marko",
+          "sadrzaj": "Cetvrti Odgovor!>.",
+          "poeni": 4
+        },
+        {
+          "autorr": "a",
+          "sadrzaj": "Peti",
+          "poeni": 0
+        },
+        {
+          "autorr": "a",
+          "sadrzaj": "SESTi",
+          "poeni": 2
+        },
+        {
+          "autorr": "world",
+          "sadrzaj": "zadnji",
+          "poeni": 2
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "d",
+          "poeni": 0
+        }
+      ],
+      "text": "Sta je to server?",
+      "autor": "a",
+      "katedra": "RII",
+      "predmet": "WEB",
+      "id": 4
+    },
+    {
+      "autor": "a",
+      "predmet": "Objektno Orijentisano Programiranje",
+      "katedra": "RII",
+      "text": "Razlika izmedju apstraktnih i virtelnih funkcija?",
+      "odgovori": [],
+      "id": 5
+    },
+    {
+      "odgovori": [],
+      "text": "Raw hazardi i War hazardi, razlika?",
+      "autor": "a",
+      "katedra": "RII",
+      "predmet": "AIOR",
+      "id": 6
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "a",
+          "sadrzaj": "Radi se preko hibrida Milijevog i Murovog automata.",
+          "poeni": 2
+        },
+        {
+          "autorr": "admin",
+          "sadrzaj": "moj novi ododgovor\n",
+          "poeni": 1
+        },
+        {
+          "autorr": "mare97",
+          "sadrzaj": "vrvrvrvv",
+          "poeni": 0
+        }
+      ],
+      "text": "CPU preko masine stanja(konacni automat)?",
+      "autor": "a",
+      "katedra": "RII",
+      "predmet": "AIOR",
+      "id": 7
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "a",
+          "sadrzaj": "Kod nekih instrukcija nije (npr instrukcije CMP TEST ...).",
+          "poeni": 1
+        },
+        {
+          "autorr": "a",
+          "sadrzaj": "Kod svih se izvrsava obavezno.",
+          "poeni": 1
+        },
+        {
+          "autorr": "mare97",
+          "sadrzaj": "Zavisi da li je CISC ili RISC arhitektura.\n",
+          "poeni": 1
+        }
+      ],
+      "text": "Writeback faza instrukcije,da li je obavezna?",
+      "autor": "a",
+      "katedra": "RII",
+      "predmet": "AIOR",
+      "id": 8
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "a",
+          "sadrzaj": "Ferantijev efekat je pojava povecanja napona na kraju voda usled postojanja otocnih kapacitivnosti, najizrazeniji je ukoliko je vod podopterecen (nije prikljuceno opterecenje).",
+          "poeni": 6
+        },
+        {
+          "autorr": "mare97",
+          "sadrzaj": "rrrgrgrgrgr",
+          "poeni": 2
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "f",
+          "poeni": 1
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "ff",
+          "poeni": 0
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "dd",
+          "poeni": 0
+        }
+      ],
+      "text": "Ferantijev Efekat kod visoko naponskih vodova?",
+      "autor": "a",
+      "katedra": "EEN",
+      "predmet": "Prenos Energije",
+      "id": 9
+    },
+    {
+      "autor": "a",
+      "predmet": "Prenos Energije",
+      "katedra": "EEN",
+      "text": "Sila zatezanja kod vodova?",
+      "odgovori": [],
+      "id": 10
+    },
+    {
+      "autor": "a",
+      "predmet": "Elektrotehnika",
+      "katedra": "EEN",
+      "text": "Medjusobna induktivnost 2 kalema?",
+      "odgovori": [],
+      "id": 11
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "test",
+          "sadrzaj": "gg",
+          "poeni": 1
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "g",
+          "poeni": 1
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "ggg",
+          "poeni": 0
+        }
+      ],
+      "text": "Nikvistov kriterijum?",
+      "autor": "a",
+      "katedra": "UPS",
+      "predmet": "LSAU",
+      "id": 12
+    },
+    {
+      "autor": "a",
+      "predmet": "LSAU",
+      "katedra": "UPS",
+      "text": "Modeliranje trenja preko otpornisti sistema?",
+      "odgovori": [],
+      "id": 13
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "test",
+          "sadrzaj": "moji odgovor",
+          "poeni": 3
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "movo",
+          "poeni": 0
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "fff",
+          "poeni": 1
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "f",
+          "poeni": 2
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "ff",
+          "poeni": 2
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "d",
+          "poeni": 0
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "d",
+          "poeni": 1
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "vvv",
+          "poeni": 1
+        }
+      ],
+      "text": "Sta su nule ,a sta polovi sistema?",
+      "autor": "a",
+      "katedra": "UPS",
+      "predmet": "Regulacija EMP",
+      "id": 14
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "VoltriXxxx",
+          "sadrzaj": "(parametri)=>{sta vraca} , to ti je \nsintaksa. ",
+          "poeni": 4
+        }
+      ],
+      "text": "IFEE funkcije u JS-u?",
+      "autor": "VoltriXxxx",
+      "katedra": "RII",
+      "predmet": "WEB",
+      "id": 15
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "test",
+          "sadrzaj": "eewwwe",
+          "poeni": 1
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "fff",
+          "poeni": 0
+        }
+      ],
+      "text": "Usmeni za visu ocenu iz WEB-a?",
+      "autor": "mare97",
+      "katedra": "RII",
+      "predmet": "WEB",
+      "id": 16
+    },
+    {
+      "odgovori": [
+        {
+          "autorr": "test",
+          "sadrzaj": "topic ide svima, a queue ide samo jednom , oba mogu dobiti filter",
+          "poeni": 2
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "aaaaaa",
+          "poeni": 0
+        },
+        {
+          "autorr": "test",
+          "sadrzaj": "bbb",
+          "poeni": 0
+        }
+      ],
+      "text": "JMS topic vs queue , osnovne razlike?",
+      "autor": "mare97",
+      "katedra": "RII",
+      "predmet": "DS",
+      "id": 17
+    }
+  ]
+}
