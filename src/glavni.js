@@ -1,7 +1,7 @@
 import { Observable, Subject, fromEvent, from, forkJoin, zip, interval} from "rxjs";
-import { filter,map,distinct, takeUntil , sampleTime, debounceTime, switchMap, pairwise, scan,mapTo} from "rxjs/operators";
+import { filter,map,distinct, takeUntil ,take, debounceTime, switchMap, pairwise, scan,mapTo,exhaustMap,mergeMap, concatMap} from "rxjs/operators";
 import {Pitanje} from "./Pitanje.js";
-import {Odgovor} from "./Odgovor.js"
+import {Odgovor} from "./Odgovor.js";
 import{User} from "./User.js";
 const url="http://localhost:3000";
 let ime="";
@@ -281,6 +281,7 @@ function napuniFormu(forma)
     div1.appendChild(labela1);
     const pretragaDom=document.createElement("input");
     pretragaDom.name="search";
+    pretragaDom.className="prdmt";
     div1.appendChild(pretragaDom);
     let wrapDiv=document.createElement("div");
     let pretragaLabel=document.createElement("label");
@@ -293,7 +294,6 @@ function napuniFormu(forma)
     wrapDiv.appendChild(pretragaLabel);
     wrapDiv.appendChild(but); 
     div1.appendChild(wrapDiv);
-    scanPretrage(but);
     but.onclick= (ev) => {
         listaPitanja=[];
         vratiPitanjaPredmet(pretragaDom.value.trim());
@@ -305,21 +305,34 @@ function napuniFormu(forma)
     div2.appendChild(labela2);
     const pretragaDom2=document.createElement("input");
     pretragaDom2.name="search2";
+    pretragaDom2.className="kljuc";
     pretragaDom2.style.display="inline";
+    const div3=document.createElement("div");
+    forma.appendChild(div3);
+    const randDom3=document.createElement("button");
+    randDom3.style.display="inline";
+    randDom3.innerHTML="5 Pitanja";
+    div3.appendChild(randDom3);
     div2.appendChild(pretragaDom2);
-    dodajEvente(pretragaDom2);
+    randomStream(randDom3);
+    dodajEvente(pretragaDom2,but,pretragaDom);
     dodajSubButtone(forma);
     dodajPoljeZaUnos(forma);
     dodajElementePitanja(forma);
     dodajStream(forma);
 }
-function scanPretrage(dugme)
+function randomStream(dugme)
 {
-    const clicks = fromEvent(dugme, 'click');
-    const jedinice = clicks.pipe(mapTo(1));
-    const seed=0;
-    const count = jedinice.pipe(scan((acc, one) => acc + one, seed));
-    count.subscribe(x => document.querySelector(".brpret").innerHTML="Ukupan Broj Pretraga je : "+x);
+    const randomClick=fromEvent(dugme,"click");
+       const randNumber=Observable.create(generator=>
+        {
+           setInterval( ()=> generator.next(parseInt(Math.random()*17+1)),2000);
+        })
+       const exhaustStream = randomClick.pipe(
+        exhaustMap(ev => randNumber.pipe(distinct(),take(5)))
+      );
+      exhaustStream.subscribe(x => {console.log(x);dobavi(x)});
+
 }
 function dodajStream(forma)
 {
@@ -347,31 +360,37 @@ function dodajStream(forma)
     forma.appendChild(streamNaslov);
     forma.appendChild(divStream);
 }
-function dodajEvente(inp2)
+function dodajEvente(inp2,dugme,inp1)
 {
-    fromEvent(inp2,"input").pipe(
-        debounceTime(500),//da saceka 500 ms
-        map(ev => ev.target.value.trim()),
-        filter(text=> text.length >=4)
-    ).subscribe(val=>{listaPitanja=[];vratiPitanjaSadrzaj(val)});
+    let control=new Subject();
+    const seed=0;
+    const predmet$=fromEvent(inp1,"input").pipe(
+        debounceTime(500),
+        map(ev => ev.target.value.trim())
+    );
+    const reci$ = fromEvent(inp2,"input").pipe(
+            debounceTime(500),
+            map(ev => ev.target.value.trim()),
+            filter(text=> text.length >=4)
+    );
+    labelaRefresh(predmet$,reci$,control);
+    predmet$.pipe(
+        mergeMap(predmet => reci$.pipe(map(rec => predmet+"  "+rec)))
+        ).subscribe(x=>pitanjaPretraga(x.split("  ")));
+    const clicks = fromEvent(dugme, 'click');
+    clicks.subscribe(x => control.next(x));
+    const jedinice=control.pipe(mapTo(1));
+    const brojacStream=jedinice.pipe(scan((acc, el) => acc + el, seed));
+    brojacStream.subscribe(broj=>document.querySelector(".brpret").innerHTML="Ukupan Broj Pretraga je : "+broj);  
 }
-function vratiPitanjaSadrzaj(val)
+function pitanjaPretraga(param)
 {
-    const div=document.querySelector(".pitanja");
-    const inp=document.querySelector("input[name='search']");
-    let s=inp.value.trim();
-    if(s=="") {
-        div.innerHTML="";
-        fetch(url+"/pitanja?q="+val)
-        .then(response => response.json())
-        .then(movies=>dodajPitanja(movies,div));
-    }
-    else {
-        div.innerHTML="";
-        fetch(url+"/pitanja?predmet="+ s+"&q="+val)
-        .then(response => response.json())
-        .then(movies=>dodajPitanja(movies,div));
-    }
+console.log(param[0]+" "+param[1]);
+const div=document.querySelector(".pitanja");
+div.innerHTML="";
+fetch(url+"/pitanja?predmet="+ param[0]+"&q="+param[1])
+.then(response => response.json())
+.then(pitanja=>{listaPitanja=[];dodajPitanja(pitanja,div)});
 }
 function vratiPitanjaPredmet(val)
 {
@@ -728,6 +747,12 @@ function dodajElementePitanja(forma)
     dugme.onclick=(ev)=>{
         proslediPitanje(forma);
     }
+}
+function labelaRefresh(predmet$,reci$,control)
+{
+    predmet$.pipe(
+        concatMap(()=>reci$)
+        ).subscribe(x=>control.next(x))
 }
 function proslediPitanje(forma)
 {
