@@ -1,27 +1,26 @@
 import { Observable, Subject, fromEvent, from, forkJoin, zip, interval} from "rxjs";
 import { filter,map,distinct, takeUntil ,take, debounceTime, switchMap, pairwise, scan,mapTo,exhaustMap,mergeMap, concatMap} from "rxjs/operators";
-import {Pitanje} from "./Pitanje.js";
-import {Odgovor} from "./Odgovor.js";
-import{User} from "./User.js";
+import { Pitanje } from "./Pitanje.js";
+import { Odgovor } from "./Odgovor.js";
+import { User } from "./User.js";
 const url="http://localhost:3000";
-let ime="";
-let idUser="";
+let trenutniUser="";
+let trenutniId="";
 let listaPitanja=[];
 let rii=true;
 let een=true;
 let ups=true;
-let controlStream=new Subject();
-controlStream.subscribe(x=>console.log(x));
 let riiStream;
 let eenStream;
 let upsStream;
+let controlStream=new Subject();
+controlStream.subscribe(x=>console.log(x));
 function generisiNaslov()
 {
     const naslov=document.createElement("h2");
     naslov.innerHTML="ePitalica?";
     document.body.appendChild(naslov); 
-    if(ime!="")
-    {
+    if(trenutniUser!="") {
         const otac=document.createElement("div");
         const logoutButton=document.createElement("button");
         logoutButton.innerHTML="Log out";
@@ -33,7 +32,10 @@ function generisiNaslov()
         const clearDugme = document.createElement("button");
         clearDugme.innerHTML="Clear";
         clearDugme.className="OGLOC";
-        clearDugme.onclick=()=>{listaPitanja=[]; nacrtajPitanja(document.querySelector(".pitanja"));}
+        clearDugme.onclick=()=>{listaPitanja=[];
+                                nacrtajPitanja(document.querySelector(".pitanja"));
+                                nacrtajPitanja(document.querySelector(".stream"));
+                               }
         document.body.appendChild(otac);
         otac.appendChild(logoutButton);
         otac.appendChild(mojaPitanja);
@@ -44,14 +46,14 @@ function generisiNaslov()
                 headers: new Headers({
                   'Content-Type': 'application/json',
             }),
-                body: JSON.stringify(ime)
+                body: JSON.stringify(trenutniUser)
             };
             from(
-                fetch(url+"/users/"+idUser,podaci)
+                fetch(url+"/users/"+trenutniId,podaci)
                 .then(response => response.json())
             ).subscribe(user=>{ console.log(user)});
             document.body.innerHTML="";
-            ime="";
+            trenutniUser="";
             generisiNaslov();
             generisiLogin();
             generisiSignUp();
@@ -60,7 +62,7 @@ function generisiNaslov()
             listaPitanja=[];
             document.querySelector(".pitanja").innerHTML="";
             from(
-                fetch(url+"/pitanja?autor="+ime.username)
+                fetch(url+"/pitanja?autor="+trenutniUser.username)
                 .then(response => response.json())
             ).subscribe(user=>{ dodajPitanja(user,document.querySelector(".pitanja"))});
         }
@@ -97,9 +99,7 @@ function generisiLogin(){
     const dugme=document.createElement("button");
     dugme.innerHTML="Login";
     div.appendChild(dugme);
-    dugme.onclick=(ev)=>{
-        login();
-    }
+    dugme.onclick=(ev)=> login();
 }
 function generisiSignUp()
 {
@@ -132,21 +132,18 @@ function generisiSignUp()
     const dugme=document.createElement("button");
     dugme.innerHTML="Sign Up";
     div.appendChild(dugme);
-    dugme.onclick=(ev)=>{
-        signUp();
-    }
+    dugme.onclick=(ev)=> signUp();
 }
 function dodajKontrolu(input,input2,labela)
 {
     fromEvent(input,"input").pipe(
-        debounceTime(500),//da saceka 500 ms
+        debounceTime(500),
         map(ev => ev.target.value.trim())
-    ).subscribe(val=>{refreshLabel(val,labela," password!")});
-
+    ).subscribe(value=>{refreshLabel(value,labela," password!")});
     fromEvent(input2,"input").pipe(
-        debounceTime(500),//da saceka 500 ms
+        debounceTime(500),
         map(ev => ev.target.value.trim())
-    ).subscribe(val=>{refreshLabel(val,labela," username!")});
+    ).subscribe(value=>{refreshLabel(value,labela," username!")});
 }
 function refreshLabel(val,labela,poruka)
 {
@@ -159,44 +156,37 @@ function login()
 {
     let username=document.querySelector("input[name='user']").value;
     let password=document.querySelector("input[name='pass']").value;
-    console.log(password+" "+username);
     if(username && password){
         from(
             fetch(url+"/users?username="+username+"&password="+password)
             .then(response => response.json()))
-        .subscribe(user=>{vidiUser(user);console.log(user);});
+        .subscribe(user=>vidiUser(user));
     }
-    else{
-        document.querySelector("article").innerHTML="Nevalidan Unos!";
-        console.log("Nevalidan Unos!");
-    }
+    else
+        document.querySelector("article").innerHTML="Nevalidan Unos!"; 
 }
 function signUp()
 {
     let username=document.querySelector("input[name='user1']").value;
     let password=document.querySelector("input[name='pass1']").value;
-    console.log(password+" "+username);
     if(username.trim().length>=4 && password.trim().length>=4){
        from(
             fetch(url+"/users?username="+username+"&password="+password)
            .then(response => response.json()))
-           .subscribe(user=>{signUser(user);console.log(user)});
+           .subscribe(user=>signUser(user));
     }
-    else{
-        document.querySelectorAll("article")[1].innerHTML="Nevalidan Unos!";
-        console.log("Nevalidan Unos!");
-    }
+    else
+        document.querySelectorAll("article")[1].innerHTML="Nevalidan Unos!";  
 }
 function signUser(user)
 {
     let dom=document.querySelectorAll("article")[1];
-    if(user.length==0)
-    {//upis novog accounta
+    if(user.length==0) {
         let username=document.querySelector("input[name='user1']").value;
         let password=document.querySelector("input[name='pass1']").value;
         let niz=[];
         let noviUser=new User(username,password,niz);
-        ime=noviUser;
+        trenutniUser=noviUser;
         const podaci={      
             method:"post",
             headers: new Headers({
@@ -219,27 +209,26 @@ function signUser(user)
 function napuniSignInId()
 {
     from(
-        fetch(url+"/users?username="+ime.username)
+        fetch(url+"/users?username="+trenutniUser.username)
         .then(response => response.json())
-    ).subscribe(user=>{idUser=user[0]["id"];console.log("UVACEN ID JE "+idUser)});
+    ).subscribe(user=>trenutniId=user[0]["id"]);
 }
 function vidiUser(user)
 {
     let dom=document.querySelector("article");
     if(user.length==0)
         dom.innerHTML="Pogersan Username/Password!";
-    else {
+    else
+    {
         dom.innerHTML="Uspesan Login, Sacekajte....";
-        ime=new User(user[0]["username"],user[0]["password"],user[0]["lajkovaniOdg"]);
-        idUser=user[0]["id"];
-        console.log("USername je :"+ime.username);
+        trenutniUser=new User(user[0]["username"],user[0]["password"],user[0]["lajkovaniOdg"]);
+        trenutniId=user[0]["id"];
         pokreni(user);
     }
 }
 function start(user)
 {
-    return new Promise((resolve,reject)=>
-    {
+    return new Promise((resolve,reject)=> {
         setTimeout(()=> resolve(user),1500);
     });
 }
@@ -258,7 +247,7 @@ function ucitaj(user)
 function generisiProfil()
 {
     const profil=document.createElement("p");
-    profil.innerHTML="* Dobrodosli "+ime.username+" *!";
+    profil.innerHTML="* Dobrodosli "+trenutniUser.username+" *!";
     profil.className="str";
     document.body.appendChild(profil);
     const main=document.createElement("div");
@@ -280,8 +269,6 @@ function napuniFormu(forma)
     labela1.innerHTML="Pretrazite pitanja po nazivu predmeta : ";
     div1.appendChild(labela1);
     const pretragaDom=document.createElement("input");
-    pretragaDom.name="search";
-    pretragaDom.className="prdmt";
     div1.appendChild(pretragaDom);
     let wrapDiv=document.createElement("div");
     let pretragaLabel=document.createElement("label");
@@ -304,8 +291,6 @@ function napuniFormu(forma)
     labela2.innerHTML="Pretrazite pitanja po kljucnim recima : ";
     div2.appendChild(labela2);
     const pretragaDom2=document.createElement("input");
-    pretragaDom2.name="search2";
-    pretragaDom2.className="kljuc";
     pretragaDom2.style.display="inline";
     const div3=document.createElement("div");
     forma.appendChild(div3);
@@ -331,8 +316,7 @@ function randomStream(dugme)
        const exhaustStream = randomClick.pipe(
         exhaustMap(ev => randNumber.pipe(distinct(),take(5)))
       );
-      exhaustStream.subscribe(x => {console.log(x);dobavi(x)});
-
+      exhaustStream.subscribe(x => dobavi(x));
 }
 function dodajStream(forma)
 {
@@ -365,7 +349,7 @@ function dodajEvente(inp2,dugme,inp1)
     let control=new Subject();
     const seed=0;
     const predmet$=fromEvent(inp1,"input").pipe(
-        debounceTime(500),
+        debounceTime(1000),
         map(ev => ev.target.value.trim())
     );
     const reci$ = fromEvent(inp2,"input").pipe(
@@ -385,7 +369,6 @@ function dodajEvente(inp2,dugme,inp1)
 }
 function pitanjaPretraga(param)
 {
-console.log(param[0]+" "+param[1]);
 const div=document.querySelector(".pitanja");
 div.innerHTML="";
 fetch(url+"/pitanja?predmet="+ param[0]+"&q="+param[1])
@@ -398,7 +381,7 @@ function vratiPitanjaPredmet(val)
     div.innerHTML="";
     fetch(url+"/pitanja?predmet="+val)
     .then(response => response.json())
-    .then(movies=>dodajPitanja(movies,div));
+    .then(pitanja=>dodajPitanja(pitanja,div));
 }
 function dodajPitanja(pitanja,host)
 {
@@ -432,19 +415,15 @@ function nacrtajPitanja(host)
         let dugme=document.createElement("button");
         dugme.innerHTML="Odgovori";
         dugme.id=pitanje.id;
-        dugme.onclick = (ev) => {
-            prikaziOdgovore(ev.target.id);
-        }
+        dugme.onclick = (ev) => prikaziOdgovore(ev.target.id);
         let deleteButton;
-        if(pitanje.autor==ime.username)
-        {
+        if(pitanje.autor==trenutniUser.username) {
             flag=true;
             deleteButton=document.createElement("button");
             deleteButton.innerHTML="Obrisi";
             deleteButton.style.display="inline";
             deleteButton.id=pitanje.id;
             deleteButton.onclick=(ev)=>{
-                console.log(ev.target.id);
                 listaPitanja.forEach((element,index) => {
                     if(element.id==ev.target.id){
                         listaPitanja.splice(index,1);
@@ -477,12 +456,11 @@ function dobavi(id)
     from(
         fetch(url+"/pitanja/"+id)
         .then(response => response.json())
-    ).subscribe(pitanje=>{console.log(pitanje);
-                          if(pitanje.autor)
-                             listaPitanja.push(pitanje);
-                          nacrtajPitanja(document.querySelector(".stream"))
+    ).subscribe(pitanje=>{ if(pitanje.autor)
+                                listaPitanja.push(pitanje);
+                           nacrtajPitanja(document.querySelector(".stream")) 
                          }
-        );
+                );
 }
 function dodajSubButtone(forma)
 {
@@ -492,24 +470,18 @@ function dodajSubButtone(forma)
     novoDugme.innerHTML="Nova Pitanja";
     novoDugme.className="subbutton";
     novoDugme.style.display="inline";
-    novoDugme.onclick=(ev)=>{
-        najnovija(1);
-    }
+    novoDugme.onclick=(ev)=> najnovija(1);
     const subAll=document.createElement("button");
     subAll.innerHTML="SubAll";
     subAll.className="subbutton";
     subAll.style.display="inline";
-    subAll.onclick=(ev)=>{
-        najnovija(2);
-    }
+    subAll.onclick=(ev)=> najnovija(2);
     const redom=document.createElement("button");
     redom.innerHTML="Ispocetka";
     redom.className="subbutton";
     redom.style.display="inline";
     ispocetka(redom);
-    redom.onclick=(ev)=>{
-        listaPitanja=[];
-    }
+    redom.onclick=(ev)=> listaPitanja=[];
     const paroviDugme=document.createElement("button");
     paroviDugme.innerHTML="U paru";
     paroviDugme.className="subbutton";
@@ -524,7 +496,7 @@ function dodajSubButtone(forma)
             pairwise(),
             takeUntil(controlStream)
         )
-        jedinstveni.subscribe(par=>{console.log(par);vratiParPitanja(par)});
+        jedinstveni.subscribe(par=>vratiParPitanja(par));
     }
     div1.appendChild(novoDugme);
     div1.appendChild(subAll);
@@ -538,9 +510,7 @@ function dodajSubButtone(forma)
         div.appendChild(dugme);
         dugme.id=element;
         dugme.className="subbutton";
-        dugme.onclick=(ev)=>{
-        resiSubUnsub(ev.target);
-        }
+        dugme.onclick=(ev)=> resiSubUnsub(ev.target);    
     });
     const unsubButton = document.createElement("button");
     unsubButton.innerHTML="Unsub All";
@@ -567,25 +537,25 @@ function ispocetka(dugme)
 {
     const clicks = fromEvent(dugme, 'click');
     const result = clicks.pipe(switchMap((ev) => interval(2000)),takeUntil(controlStream));
-    result.subscribe(x => {console.log(x);dobavi(x+1)});
+    result.subscribe(x => dobavi(x+1));
 }
 function vratiParPitanja(par)
 {
     const prvoPitanje=from(
         fetch(url+"/pitanja/"+par[0])
         .then(response => response.json()));
-    prvoPitanje.subscribe(pitanje=>console.log(pitanje));
+    prvoPitanje.subscribe(()=>{});
     const drugoPitanje=from(
         fetch(url+"/pitanja/"+par[1])
         .then(response => response.json()));
-    drugoPitanje.subscribe(pitanje=>console.log(pitanje));
+    drugoPitanje.subscribe(()=>{});
     const forkjoin = forkJoin([
         prvoPitanje,
         drugoPitanje
         ]);
     forkjoin.subscribe({
         next: value => {listaPitanja=value;nacrtajPitanja(document.querySelector(".stream"))},
-        complete: () => console.log('Kraj!'),
+        complete: () => console.log('Kraj!')
     });
 }
 function najnovija(broj)
@@ -605,8 +575,7 @@ function najnovija(broj)
 }
 function stvoriObservablePitanja(pitanja,katedra,broj)
 {
-    if(katedra=="RII")
-    {
+    if(katedra=="RII") {
         riiStream=from(pitanja);
         riiStream.subscribe(x=>console.log(x));
     }
@@ -614,8 +583,7 @@ function stvoriObservablePitanja(pitanja,katedra,broj)
         eenStream=from(pitanja);
         eenStream.subscribe(x=>console.log(x));
     }
-    else
-    {
+    else {
         upsStream=from(pitanja);
         upsStream.subscribe(x=>console.log(x));
         if(broj==1)
@@ -633,7 +601,7 @@ function forkJoinStreamove()
       ]);
       forkjoin.subscribe({
        next: value => {listaPitanja=value;nacrtajPitanja(document.querySelector(".stream"))},
-       complete: () => console.log('Kraj!'),
+       complete: () => console.log('Kraj!')
       });
 }
 function zipujStreamove()
@@ -649,56 +617,44 @@ function zipujStreamove()
 }
 function resiSubUnsub(dugme)
 {
-    if(dugme.id=="RII")
-    {
-        if(rii==true)
-        {
+    if(dugme.id=="RII") {
+        if(rii==true) {
             from(
                 fetch(url+"/pitanja?katedra=RII")
                 .then(response => response.json())
-                ).subscribe(user=>{prikaziStream(user,user.length,"RII")});
+                ).subscribe(pitanja=>{prikaziStream(pitanja,pitanja.length,"RII")});
             dugme.innerHTML="Unsub RII";
         }
-        else
-        {
+        else {
             riiStream.unsubscribe();
-            riiStream=null;
             dugme.innerHTML="Sub RII";
         }
         rii=!rii;
     }
-    else if(dugme.id=="EEN")
-    {
-        if(een==true)
-        {
+    else if(dugme.id=="EEN") {
+        if(een==true) {
             dugme.innerHTML="Unsub EEN";
             from(
                 fetch(url+"/pitanja?katedra=EEN")
                 .then(response => response.json())
-                ).subscribe(user=>{prikaziStream(user,user.length,"EEN")});
+                ).subscribe(pitanja=>{prikaziStream(pitanja,pitanja.length,"EEN")});
         }
-        else
-        {
+        else {
             eenStream.unsubscribe();
-            eenStream=null;
             dugme.innerHTML="Sub EEN";
         }
         een=!een;
     }
-    else
-    {
-        if(ups==true)
-        {
+    else {
+        if(ups==true) {
             from(
                 fetch(url+"/pitanja?katedra=UPS")
                 .then(response => response.json())
-                ).subscribe(user=>{prikaziStream(user,user.length,"UPS")});
+                ).subscribe(pitanja=>{prikaziStream(pitanja,pitanja.length,"UPS")});
             dugme.innerHTML="Unsub UPS";
         }
-        else
-        {
+        else {
             upsStream.unsubscribe();
-            upsStream=null;
             dugme.innerHTML="Sub UPS";
         }
     ups=!ups;
@@ -744,15 +700,13 @@ function dodajElementePitanja(forma)
     dugme.innerHTML="Dodaj";
     dugme.style.marginLeft="75%";
     forma.appendChild(dugme);
-    dugme.onclick=(ev)=>{
-        proslediPitanje(forma);
-    }
+    dugme.onclick=(ev)=> proslediPitanje(forma); 
 }
 function labelaRefresh(predmet$,reci$,control)
 {
     predmet$.pipe(
-        concatMap(()=>reci$)
-        ).subscribe(x=>control.next(x))
+                concatMap(()=>reci$)
+                ).subscribe(x=>control.next(x));
 }
 function proslediPitanje(forma)
 {
@@ -761,39 +715,28 @@ function proslediPitanje(forma)
     let nazivPredmeta=forma.querySelector("input[name='imePredmeta']").value;
     if(!text || !nazivPredmeta)
         return ;
-    console.log(katedra+ " "+text+" "+nazivPredmeta);
-    let novoPitanje=new Pitanje(text,ime.username,katedra,nazivPredmeta);
-    let odg=[];
-    const payload={
-        autor:ime.username,
-        predmet:nazivPredmeta,
-        katedra:katedra,
-        text:text,
-        odgovori:odg
-    }
+    let novoPitanje=new Pitanje(text,trenutniUser.username,katedra,nazivPredmeta);
     const podaci={      
         method:"post",
         headers: new Headers({
       'Content-Type': 'application/json',
     }),
-    body: JSON.stringify(payload)
+    body: JSON.stringify(novoPitanje)
     };
     from(
         fetch(url+"/pitanja",podaci)
         .then(response => response.json())
-        ).subscribe(user=>{console.log(user);listaPitanja=[];vratiPitanjaPredmet(novoPitanje.predmet)});
+        ).subscribe(user=>{listaPitanja=[];vratiPitanjaPredmet(novoPitanje.predmet)});
 }
 function prikaziOdgovore(id)
 {
-    console.log(id);
     from(listaPitanja).pipe(
         filter(el=>el.id==id)
-        ).subscribe(pitanje=>odstampajPitanjeIOdgovore(pitanje))
+        ).subscribe(pitanje=>odstampajPitanjeIOdgovore(pitanje));
 }
 function odstampajPitanjeIOdgovore(pitanje)
 {
     let flag=true;
-    console.log(pitanje);
     let kon=document.querySelector(".pitanja");
     kon.innerHTML="";
     let div=document.createElement("div");
@@ -820,7 +763,7 @@ function odstampajPitanjeIOdgovore(pitanje)
         let bodyOdg=document.createElement("label");
         bodyOdg.className="questxt"
         bodyOdg.innerHTML=element.sadrzaj;
-        ime.lajkovaniOdg.forEach(el=>{
+        trenutniUser.lajkovaniOdg.forEach(el=>{
                 if(el==element.sadrzaj)
                     flag=false;
         });
@@ -831,7 +774,7 @@ function odstampajPitanjeIOdgovore(pitanje)
             upvoteButton.id=index;
             upvoteButton.onclick=(ev)=>{
                 pitanje.odgovori[ev.target.id].poeni++;
-                ime.lajkovaniOdg.push(pitanje.odgovori[ev.target.id].sadrzaj);
+                trenutniUser.lajkovaniOdg.push(pitanje.odgovori[ev.target.id].sadrzaj);
                 posaljiKomentar(pitanje,1);
             }
         }
@@ -851,27 +794,21 @@ function odstampajPitanjeIOdgovore(pitanje)
     const dajOdgovor=document.createElement("button");
     dajOdgovor.innerHTML="Daj Odgovor";
     dajOdgovor.style.display="inline";
-    dajOdgovor.onclick=(ev)=>{
-        console.log(pitanje);
-        posaljiKomentar(pitanje);
-    }
+    dajOdgovor.onclick=(ev)=> posaljiKomentar(pitanje);
     divButton.appendChild(dajOdgovor);
     const dugme=document.createElement("button");
     dugme.innerHTML="Nazad";
     divButton.appendChild(dugme);
-    dugme.onclick=(ev)=>{
-        nacrtajPitanja(kon);  
-    }
+    dugme.onclick=(ev)=> nacrtajPitanja(kon);  
     kon.appendChild(divButton);
 }
 function posaljiKomentar(pitanje,lajk)
 {
-    console.log(pitanje);
     let sadrzaj=document.querySelector(".pitanja").querySelector("textarea").value;
     if(sadrzaj.trim()=="" && !lajk)
         retrun;
     if(!lajk){
-        let noviOdgovor=new Odgovor(ime.username,sadrzaj,0);
+        let noviOdgovor=new Odgovor(trenutniUser.username,sadrzaj,0);
         pitanje.odgovori.push(noviOdgovor);
     }
     const podaci={      
@@ -885,7 +822,8 @@ function posaljiKomentar(pitanje,lajk)
         fetch(url+"/pitanja/"+pitanje.id,podaci)
         .then(response => response.json())
     ).subscribe(pitanjeObj=>{ document.querySelector(".pitanja").innerHTML="";
-    odstampajPitanjeIOdgovore(pitanjeObj);});
+                              odstampajPitanjeIOdgovore(pitanjeObj);
+                            });
 }
 function prikaziStream(stream,duz,katedra)
 {
