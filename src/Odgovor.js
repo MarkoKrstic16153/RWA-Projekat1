@@ -1,9 +1,9 @@
 export class Odgovor
 {
-    constructor(autor,sadrzaj,poeni)
+    constructor(autor, sadrzaj, poeni)
     {
-        this.autorr=autor;
-        this.sadrzaj=sadrzaj;
-        this.poeni=poeni;
+        this.autorr = autor;
+        this.sadrzaj = sadrzaj;
+        this.poeni = poeni;
     }
 }
