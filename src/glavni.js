@@ -13,6 +13,7 @@ let ups = true;
 let riiStream;
 let eenStream;
 let upsStream;
+let brojPitanja;
 let controlStream = new Subject();
 function generisiNaslov()
 {
@@ -310,7 +311,7 @@ function randomStream(dugme)
 {
     const randomClick = fromEvent(dugme,"click");
     const randNumber = Observable.create(generator => {
-       setInterval(() => generator.next(parseInt(Math.random()*17+1)),2000);
+       setInterval(() => generator.next(parseInt(Math.random()*brojPitanja+1)),2000);
     })
     const exhaustStream = randomClick.pipe(
         exhaustMap(ev => randNumber.pipe(
@@ -398,7 +399,6 @@ function dodajPitanja(pitanja, host)
         });
         listaPitanja.push(pitanje);
     });
-    console.log(listaPitanja);
     nacrtajPitanja(host);
 }
 function nacrtajPitanja(host)
@@ -491,10 +491,10 @@ function dodajSubButtone(forma)
     paroviDugme.className = "subbutton";
     paroviDugme.style.display = "inline";
     paroviDugme.onclick = () => {
-        let a = Observable.create(generator => {
-           setInterval(() => generator.next(parseInt(Math.random()*17+1)),1000);
+        let randStream = Observable.create(generator => {
+           setInterval(() => generator.next(parseInt(Math.random()*brojPitanja+1)),1700);
         })
-        let jedinstveni = a.pipe(
+        let jedinstveni = randStream.pipe(
             distinct(),
             pairwise(),
             takeUntil(controlStream)
@@ -610,7 +610,7 @@ function forkJoinStreamove()
 }
 function zipujStreamove()
 {
-    let obs = interval(2500);
+    let obs = interval(2300);
     obs.subscribe();
     zip(riiStream, eenStream, upsStream, obs).pipe(
         map(([rii, een, ups]) => ([ rii, een, ups ])),
@@ -836,10 +836,10 @@ function posaljiKomentar(pitanje, lajk)
 }
 function prikaziStream(stream, duz, katedra)
 {
-    let a = Observable.create(generator => {
+    let randStream = Observable.create(generator => {
            setInterval(() => generator.next(parseInt(Math.random()*duz)), 2000);
         })   
-    let tok = a.pipe(
+    let tok = randStream.pipe(
         takeUntil(controlStream),
         distinct()
     ).subscribe(ind => {
@@ -853,6 +853,10 @@ function prikaziStream(stream, duz, katedra)
     else if(katedra == "UPS")
         upsStream = tok;
 }
+from(
+    fetch(url + "/brojPitanja")
+    .then(response => response.json())
+).subscribe(brojPit => brojPitanja=brojPit.broj);
 generisiNaslov();
 generisiLogin();
 generisiSignUp();
